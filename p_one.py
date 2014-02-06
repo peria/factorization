@@ -1,23 +1,13 @@
 #!/usr/bin/env python
 
+# Implementation of p-1 method.
+
 import fractions
 import sys
 
 
-def modpow(x, k, n):
-  """modpow(x, k, n) returns x^k mod n"""
-  a = 1
-  m = x
-  while k > 0:
-    if k % 2 == 1:
-      a = (a * m) % n
-    m = (m * m) % n
-    k /= 2
-  return a
-
-
-def core(a, k, n):
-  p = fractions.gcd(n, modpow(a, k, n) - 1)
+def core(x, k, n):
+  p = fractions.gcd(n, pow(x, k, n) + n - 1)
   q = n / p
   if p > q:
     (p, q) = (q, p)
