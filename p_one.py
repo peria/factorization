@@ -15,19 +15,21 @@ def core(x, k, n):
 
 
 def factor(n):
-  k = 1
-  for i in xrange(100):
-    k *= i + 1
-
   factors = []
-  for a in xrange(2, 13):
+  a = 2
+  k = 2 ** 10
+  for hundred in xrange(0, 500, 100):
+    for mod100 in xrange(1, 100, 2):
+      k *= hundred + mod100
     (p, n) = core(a, k, n)
     if p > 1:
       factors.append(p)
+      if p * p > n:
+        break
 
   return (factors, n)
 
-  
+
 if __name__ == "__main__":
   n = int(raw_input())
   (factors, p) = factor(n)

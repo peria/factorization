@@ -6,6 +6,7 @@ import sys
 import trial
 
 if __name__ == "__main__":
+  n0 = n1 = n2 = nn = 0
   for line in sys.stdin:
     line = line.strip()
 
@@ -14,5 +15,12 @@ if __name__ == "__main__":
     (p1, n) = p_one.factor(n)
     (p2, n) = rho.factor(n)
 
-    if len(p0) == 0 and len(p1) == 0 and len(p2) == 0:
-      print "%s: %s * %s * %s * %d" % (line, p0, p1, p2, n)
+    if len(p0) > 0:
+      n0 += 1
+    elif len(p1) > 0:
+      n1 += 1
+    elif len(p2) > 0:
+      n2 += 1
+    else:
+      nn += 1
+  print n0, n1, n2, nn
