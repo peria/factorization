@@ -14,15 +14,20 @@ def succ(x, n):
 def factor(n):
   x = 2
   y = succ(x, n)
-  for i in xrange(1000):
-    p = fractions.gcd(n, abs(x - y))
-    if p > 1 and p < n:
-      q = n / p
-      if p > q:
-        (p, q) = (q, p)
-      return ([p], q)
-    x = succ(x, n)
-    y = succ(succ(y, n), n)
+  for i in xrange(100):
+    pp = 1
+    for j in xrange(10):
+      pp = pp * abs(x - y) % n
+      x = succ(x, n)
+      y = succ(succ(y, n), n)
+    p = fractions.gcd(n, pp)
+    if p == 1 or p == n:
+      continue
+
+    q = n / p
+    if p > q:
+      (p, q) = (q, p)
+    return ([p], q)
 
   # failed
   return ([], n)
