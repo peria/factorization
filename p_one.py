@@ -1,13 +1,22 @@
 #!/usr/bin/env python
 
-# Implementation of p-1 method.
+"""
+factorize input number using p-1 method
+
+For an input composite number n=p*q, this program may output p and q.
+Assuming k mod (p-1) = 0, a^k mod p = 1.  If a^k mod n != 1, we can
+get p from GCD(a^k-1, n).
+
+The most important part of p-1 method is how to make up k.
+"""
+
 
 import fractions
 import sys
 
 
-def core(x, k, n):
-  p = fractions.gcd(n, pow(x, k, n) + n - 1)
+def check(x, k, n):
+  p = fractions.gcd(x + n - 1, n)
   q = n / p
   if p > q:
     (p, q) = (q, p)
@@ -17,16 +26,14 @@ def core(x, k, n):
 def factor(n):
   factors = []
   a = 2
-  k = 2 ** 10
   for hundred in xrange(0, 500, 100):
+    k = 2 ** 10
     for mod100 in xrange(1, 100, 2):
       k *= hundred + mod100
-    (p, n) = core(a, k, n)
+    a = pow(a, k, n)
+    (p, n) = check(a, k, n)
     if p > 1:
       factors.append(p)
-      if p * p > n:
-        break
-
   return (factors, n)
 
 
