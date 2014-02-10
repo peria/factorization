@@ -1,5 +1,18 @@
 #!/usr/bin/env python
 
+def MillerRabin(a, d, s, n):
+  r = pow(a, d, n)
+  if r == 1:
+    return True
+  for i in range(s):
+    if r == n - 1:
+      return True
+    if r == 1:
+      return False
+    r = r * r % n
+  return False
+    
+
 def IsPrime(n):
   if n < 2:
     return False
@@ -10,14 +23,15 @@ def IsPrime(n):
 
   # Millar-Rabin test
   d = n - 1
+  s = 0
   while d % 2 == 0:
     d /= 2
+    s += 1
   for a in [2, 3, 5, 7]:
-    r = pow(a, d * 2, n)
-    if r != 1:
+    if not MillerRabin(a, d, s, n):
       return False
-
   return True  # probable prime
+
 
 if __name__ == "__main__":
   n = int(raw_input())
