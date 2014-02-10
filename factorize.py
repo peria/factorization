@@ -3,19 +3,19 @@
 """
 factorize input numbers using many algorithms.
 
-factorize.py trys to factorize input numbers using following algorithms
-in this order.
+try to factorize input numbers using following algorithms in this order.
  * Trial division
  * p-1 method
  * Pollard's rho method
 If output of each algorithm is not surely prime, it will be checed if it
-is composite with Millar-Rabin's test.
+is composite with Miller-Rabin's test.
 If any of output factor is judged composite, it will be reported.
 """
 
+
+import p_one
 import prime
 import rho
-import p_one
 import sys
 import trial
 
