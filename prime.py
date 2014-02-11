@@ -21,7 +21,7 @@ def IsPrime(n):
   if n % 2 == 0:
     return False
 
-  # Millar-Rabin test
+  # Miller-Rabin test
   d = n - 1
   s = 0
   while d % 2 == 0:

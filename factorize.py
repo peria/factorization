@@ -20,36 +20,52 @@ import sys
 import trial
 
 
+def factorize(n):
+  m = n
+
+  # Trial division.  All elements in [p] are prime.
+  (ps, n) = trial.factor(m)
+
+  pps = []  # probable primes
+  cs = []   # composites
+  if n > 1:
+    if not prime.IsPrime(n):
+      cs.append(n)
+    else:        
+      pps.append(n)
+
+  ccs = []  # composites which could not be factored.
+  while len(cs) > 0:
+    composites = cs
+    cs = []
+    for composite in composites:
+      n = composite
+      factors = p_one.factor(n)
+      if len(factors) == 1:
+        factors = rho.factor(n)
+
+      if len(factors) == 1:
+        ccs.append(n)
+        continue
+      for f in factors:
+        if prime.IsPrime(f):
+          pps.append(f)
+        else:
+          cs.append(f)
+
+  ps.sort()
+  pps.sort()
+  ccs.sort()
+  return (ps, pps, ccs)
+
+
 def main(ns):
-  n0 = n1 = n2 = 0
+  succeed = 0
   for n in ns:
-    m = n
-    # Trial division.  All elements in [p] are prime.
-    (p, n) = trial.factor(n)
-
-    # If n is composite, it will be factored with p-1 method.
-    if n == 1 or prime.IsPrime(n):
-      n0 += 1
-    else:
-      (q, n) = p_one.factor(n)
-      p.extend(q)
-
-    # If n is still composite, it will be factored with rho method.
-    if n == 1 or prime.IsPrime(n):
-      n1 += 1
-    else:
-      (q, n) = rho.factor(n)
-      p.extend(q)
-
-    # If n is still composite, it will be reported.
-    if n == 1 or prime.IsPrime(n):
-      n2 += 1
-    else:
-      if len(p) == 0:
-        print "%s: (composite)" % m
-
-  print n0, n1 - n0, n2 - n1, len(ns) - n2
-
+    (p, pp, c) = factorize(n)
+    if len(c) == 0:
+      succeed += 1
+  print "%d / %d succeeded." % (succeed, len(ns))
 
 if __name__ == "__main__":
   if len(sys.argv) > 1:

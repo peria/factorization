@@ -25,19 +25,20 @@ def check(x, k, n):
 
 def factor(n):
   factors = []
-  a = 2
-  for hundred in xrange(0, 500, 100):
-    k = 2 ** 10
+  a = pow(2, 2 ** 10, n)
+  for hundred in xrange(0, 600, 100):
+    k = 1
     for mod100 in xrange(1, 100, 2):
       k *= hundred + mod100
     a = pow(a, k, n)
     (p, n) = check(a, k, n)
     if p > 1:
       factors.append(p)
-  return (factors, n)
+  factors.append(n)
+  return factors
 
 
 if __name__ == "__main__":
   n = int(raw_input())
-  (factors, p) = factor(n)
-  print factors, p
+  factors = factor(n)
+  print factors

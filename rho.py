@@ -27,13 +27,11 @@ def factor(n):
     q = n / p
     if p > q:
       (p, q) = (q, p)
-    return ([p], q)
-
-  # failed
-  return ([], n)
+    return [p, q]
+  return [n]
     
   
 if __name__ == "__main__":
   n = int(raw_input())
-  (q, p) = factor(n)
-  print [q], p
+  factors = factor(n)
+  print factors
