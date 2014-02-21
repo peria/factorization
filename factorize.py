@@ -13,6 +13,7 @@ If any of output factor is judged composite, it will be reported.
 """
 
 
+import cProfile
 import p_one
 import prime
 import rho
@@ -20,19 +21,20 @@ import sys
 import trial
 
 
-def factorize(n):
-  m = n
+def factorize(m):
+  n = m
 
   # Trial division.  All elements in [p] are prime.
-  (ps, n) = trial.factor(m)
+  (ps, n) = trial.factor(n)
 
   pps = []  # probable primes
   cs = []   # composites
+  # check if n is possibly prime
   if n > 1:
-    if not prime.IsPrime(n):
-      cs.append(n)
-    else:        
+    if prime.IsPrime(n):
       pps.append(n)
+    else:        
+      cs.append(n)
 
   ccs = []  # composites which could not be factored.
   while len(cs) > 0:
@@ -42,11 +44,14 @@ def factorize(n):
       n = composite
       factors = p_one.factor(n)
       if len(factors) == 1:
-        factors = rho.factor(n)
+        factors = rho.factor_fast(n)
 
+      # This composite number could not be factored.
       if len(factors) == 1:
         ccs.append(n)
         continue
+
+      # split factors into composites and primes.
       for f in factors:
         if prime.IsPrime(f):
           pps.append(f)
@@ -71,9 +76,9 @@ if __name__ == "__main__":
   if len(sys.argv) > 1:
     argvs = sys.argv
     del argvs[0]
-    main(map(int, sys.argv))
+    cProfile.run("main(map(int, sys.argv))")
   else:
     ns = []
     for line in sys.stdin:
       ns.append(int(line.strip()))
-    main(ns)
+    cProfile.run("main(ns)")
