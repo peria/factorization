@@ -12,7 +12,7 @@ is composite with Miller-Rabin's test.
 If any of output factor is judged composite, it will be reported.
 """
 
-
+import cfrac
 import cProfile
 import p_one
 import prime
@@ -21,9 +21,7 @@ import sys
 import trial
 
 
-def factorize(m):
-  n = m
-
+def factorize(n):
   # Trial division.  All elements in [p] are prime.
   (ps, n) = trial.factor(n)
 
@@ -33,18 +31,22 @@ def factorize(m):
   if n > 1:
     if prime.IsPrime(n):
       pps.append(n)
-    else:        
+    else:
       cs.append(n)
 
   ccs = []  # composites which could not be factored.
   while len(cs) > 0:
     composites = cs
     cs = []
-    for composite in composites:
-      n = composite
+    for n in composites:
+      # try to factor with p-1 method
       factors = p_one.factor(n)
+      # try to factor with rho method
       if len(factors) == 1:
         factors = rho.factor_fast(n)
+      # try to factor with cfrac method
+      if len(factors) == 1:
+        factors = cfrac.factor(n)
 
       # This composite number could not be factored.
       if len(factors) == 1:

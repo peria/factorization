@@ -11,7 +11,7 @@ def MillerRabin(a, d, s, n):
       return False
     r = r * r % n
   return False
-    
+
 
 def IsPrime(n):
   if n < 2:
@@ -39,6 +39,3 @@ if __name__ == "__main__":
     print "%d is probable prime." % n
   else:
     print "%d is compostite." % n
-  
-
-  

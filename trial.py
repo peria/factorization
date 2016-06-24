@@ -10,6 +10,9 @@ def factor(n):
       factors.append(p)
       n /= p
     p += 1
+  if n < 1000 ** 2:
+    factors.append(n)
+    n = 1
   return (factors, n)
 
 
